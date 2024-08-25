@@ -1,7 +1,7 @@
 {
   "name": "bookbuddyapi",
   "version": "1.0.0",
-  "description": "API for BookBuddy react",
+  "description": "API for bookbuddy react project",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -11,10 +11,7 @@
     "type": "git",
     "url": "git+https://github.com/jonmullett/bookBuddyAPI.git"
   },
-  "keywords": [
-    "code",
-    "."
-  ],
+
   "author": "",
   "license": "ISC",
   "bugs": {
@@ -22,7 +19,9 @@
   },
   "homepage": "https://github.com/jonmullett/bookBuddyAPI#readme",
   "dependencies": {
+    "dotenv": "^16.4.5",
     "express": "^4.19.2",
-    "nodemon": "^3.1.4"
+    "nodemon": "^3.1.4",
+    "pg": "^8.12.0"
   }
 }

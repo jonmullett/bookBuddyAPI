@@ -6,7 +6,13 @@ userRouter.get("/me", (req, res)=>{
 });
 
 userRouter.post("/register", (req, res)=> {
+    console.log (req, body);
     res.send("userRegistered");
+    });
+
+    userRouter.post("/login", (req, res) => {
+        console.log("REQUEST BODY", req.body);
+res.send("You logged in successfully");
     });
 
 module.exports = userRouter;
