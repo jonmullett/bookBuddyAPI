@@ -72,8 +72,9 @@ const books = [
 
 const dropTables = async () => {
 try {
-    await client.query(`DROP TABLE IF EXISTS users`);
-    await client.query(`DROP TABLE IF EXISTS books`);
+    await client.query(`DROP TABLE IF EXISTS users CASCADE`);
+    await client.query(`DROP TABLE IF EXISTS books CASCADE`);
+    await client.query(`DROP TABLE IF EXISTS reservations`);
 //     } catch (err) {
 //       console.log(err);
 //     }
@@ -110,11 +111,16 @@ const createTables = async () => {
       await client.query(`CREATE TABLE books(
           id SERIAL PRIMARY KEY,
           title VARCHAR(255) NOT NULL,
-          author VARCHAR(255) NOT NULL,
+          author VARCHAR(127) NOT NULL,
           description VARCHAR(1023),
           coverimage VARCHAR(255) DEFAULT 'https://images.pexels.com/photos/7034646/pexels-photo-7034646.jpeg',
           available BOOLEAN DEFAULT true
           )`);
+
+          await client.query(`CREATE TABLE reservations(id SERIAL PRIMARY KEY,
+            bookid INTEGER REFERENCES books(id),
+            userid INTEGER REFERENCES users(id)
+            )`);
     } catch (err) {
       console.log(err);
     }
@@ -155,8 +161,13 @@ console.log("TABLES SUCCESSFULLY CREATED!");
 console.log ("INSERTING USERS...");
 await insertUsers();
 console.log("USERS ADDED");
-await getUserByEmail("alice@example.com");
+console.log("Adding books");
+// await getUserByEmail("alice@example.com");
 await insertBooks(); 
+await createReservation({ userId: 1, bookId: 1});
+console.log(await getReservation(1));
+await deleteReservation(1);
+console.log("DELETING");
 } catch (err) {
   console.log (err);
 } finally {

@@ -1,6 +1,6 @@
 const client = require("./client");
 
-const createBook = async ({title, author, description, coverImage, available})=>{
+const createBook = async ({title, author, description, coverImage, available,})=>{
     
     try{
         const SQL = `INSERT INTO books(title, author, description, coverImage, available) VALUES($1, $2, $3, $4, $5) RETURNING *`;
@@ -8,11 +8,24 @@ const createBook = async ({title, author, description, coverImage, available})=>
     
         const {
           rows:[book],
-        } = await client.query(SQL, [title, author, description, coverImage, available]);
+        } = await client.query(SQL, [title, author, description, coverImage || "https://images.pexels.com/photos/7034646/pexels-photo-7034646.jpeg", available || true,]);
         return book;
       } catch (err) {
         console.log(err);
       }
+    };
+
+    const deleteBook = async (id) => {
+      try{
+        const SQL = `DELETE FROM books WHERE id=$1 RETURNING *`;
+const {
+  rows: [result],
+} = await client.query(SQL, [id]);
+return result;
+      } catch (err) {
+        comsole.log(err);
+      }
+    
     };
 
     const getBooks = async ()=> {
@@ -20,11 +33,12 @@ const createBook = async ({title, author, description, coverImage, available})=>
             const SQL = `SELECT * FROM books`;
             const { rows } = await client.query(SQL);
             if (!rows) {
-              return { message: "something went wrong, no results" };
+              return { message: "something isn't working, no results" };
             }
             return rows;
           } catch (err) {
-            console.log(err);
+            // console.log(err);
+            res.send(err);          
           }
         };
 
@@ -40,4 +54,18 @@ const createBook = async ({title, author, description, coverImage, available})=>
             }
           };
 
-    module.exports = { createBook, getBooks, getBook };
+          const updateBook = async (id, available) => {
+            try {
+              const SQL = `UPDATE books SET available= $1 WHERE id=$2 RETURNING *`;
+              const {
+                rows: [book],
+
+              } = await client.query(SQL, [available, id]);
+              return book;
+            } catch(err) {
+              console.log(err);
+            }
+            };
+          
+
+    module.exports = { createBook, getBooks, getBook, deleteBook, updateBook };
