@@ -62,7 +62,7 @@ userRouter.post("/register", async (req, res, next)=> {
         }
         const result = await createUser(req.body);
     if (result) {
-        const token=jwt.sign({ id: result.id, email }, process.env.JWT_SECRET,{
+        const token=jwt.sign({ id:result.id, email }, process.env.JWT_SECRET,{
             expiresIn:"1w",
     });
         console.log(token);
