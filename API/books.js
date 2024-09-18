@@ -78,8 +78,9 @@ console.log(result);
 }
 });
 
+
 bookRouter.patch("/:id", requireUser, async (req, res, next) => {
-    console.log("USER", req.user);
+    console.log("USER, req.user");
     try {
         const id = Number(req.params.id);
         if (isNaN(id) || req.params.id === " ") {
@@ -105,7 +106,7 @@ bookRouter.patch("/:id", requireUser, async (req, res, next) => {
         } else {
             next({
                 name: "UpdatedError",
-                message: "There was an error updating this book",
+                message: "Tehre was an error updating this book",
                 
             });
             return;
