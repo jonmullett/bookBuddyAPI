@@ -1,6 +1,5 @@
 const express = require("express");
 const reservationsRouter = express.Router();
-
 const { requireUser } = require("./utils");
 
 const {

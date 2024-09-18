@@ -20,25 +20,27 @@ bookRouter.get ("/", async (req, res, next) => {
 
 
 bookRouter.get ("/:id", async (req, res, next)  => {
-    try {
+   
 
-const { id } = Numbeer(req.params.id);
+const { id } = Number(req.params.id);
 
 console.log(id);
 if (isNaN(id) || req.params.id ===" ") {
     next({
-        name: InvalidIdFormat
-,
+        name: InvalidIdFormat,
+
 message: "The provided request parameter is not a vallid book id",    
 });
 return;
 
 }
+try {
 const result = await getBook(id);
         if (!result) {
             next({
-                 name: "Jot Found", message: "no matching book found"
+                 name: "not Found", message: "no matching book found"
             });
+            return;
         }
     
     res.send (result);
@@ -77,7 +79,7 @@ console.log(result);
 });
 
 bookRouter.patch("/:id", requireUser, async (req, res, next) => {
-    console.log("USER, req.user");
+    console.log("USER", req.user);
     try {
         const id = Number(req.params.id);
         if (isNaN(id) || req.params.id === " ") {
@@ -103,7 +105,7 @@ bookRouter.patch("/:id", requireUser, async (req, res, next) => {
         } else {
             next({
                 name: "UpdatedError",
-                message: "Tehre was an error updating this book",
+                message: "There was an error updating this book",
                 
             });
             return;

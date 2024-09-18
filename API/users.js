@@ -32,6 +32,7 @@ userRouter.post("/register", async (req, res, next)=> {
 
     const { firstname, lastname, email, password } = req.body;
     if (!email) {
+       
         next({ name: "PasswordRequiredError", message: "Email not provided" });
         return;
     }
@@ -62,7 +63,7 @@ userRouter.post("/register", async (req, res, next)=> {
         }
         const result = await createUser(req.body);
     if (result) {
-        const token=jwt.sign({ id:result.id, email }, process.env.JWT_SECRET,{
+        const token=jwt.sign({ id: result.id, email }, process.env.JWT_SECRET,{
             expiresIn:"1w",
     });
         console.log(token);
@@ -110,23 +111,34 @@ return;
         try {
             const result = await getUser(req.body);
             if(result){
-               const token = jwt.sign({ id: result.id, email },process.env.JWT_SECRET, {
+               const token = jwt.sign({ id: result.id, email },
+                process.env.JWT_SECRET, {
                 exiresIn: "1w",
                });
                res.send({message: "Login successful", token });
                
              } else {
-                next({
-                    name: "IncorrectCredentialsError",
-                    message: "Username or password are incorrect",
+                next({name:"IncorrectCredentialsError", message: "Username or password is wrong"});
+             }
+            
+             } catch (err) {
+                next ("Something went wrong");
 
-                });
+             }
+             });
+
+             
+                // next({
+                //     name: "IncorrectCredentialsError",
+                //     message: "Username or password are incorrect",
+
+                // });
                 // message: "error registering, try later",
-            }
-        } catch(err) {
-            next(err);
-        }
-    });
+    //         }
+    //     } catch(err) {
+    //         next(err);
+    //     }
+    // });
             
   
             

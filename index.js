@@ -14,12 +14,12 @@ app.use (express.json());
 app.use ("/api", require("./api"));
 
 
-app.get ("/", (req, res)=>{
+app.get ("/", (req, res)=> {
 res.send("hello from the server");
 });
 
-app.use((err, req, res, next) => {
-    console.log("ERROR", err);
+app.use((error, req, res, next) => {
+    console.log("ERROR", error);
     res.send({
       message: "Something broke...",
   });

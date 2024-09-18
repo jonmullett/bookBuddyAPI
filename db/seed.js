@@ -1,4 +1,4 @@
-// require("dotenv").config();
+
 require("dotenv").config(); 
 
 
@@ -7,6 +7,7 @@ require("dotenv").config();
 const client = require("./client");
 const { createUser, getUserByEmail } = require("./users");
 const { createBook, getBooks } = require ("./books");
+const { createReservation, getReservation } = require("./reservations");
 // import {createBook} from ("./books");
 
 const users = [
